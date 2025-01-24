@@ -1,0 +1,12 @@
+.icon {
+  &-box {
+    width: 1em;
+    height: 1em;
+    line-height: 1em;
+  }
+  &-item {
+    width: 1em;
+    height: 1em;
+    fill: currentColor; /* 设置图标颜色为当前文字颜色 */
+  }
+}

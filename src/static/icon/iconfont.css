@@ -1,0 +1,223 @@
+@font-face {
+  font-family: 'iconfont';  /* Project id 4801292 */
+  src: url('https://at.alicdn.com/t/c/font_4801292_m9q9hb7nho8.woff2?t=1737535305400') format('woff2'),
+       url('https://at.alicdn.com/t/c/font_4801292_m9q9hb7nho8.woff?t=1737535305400') format('woff'),
+       url('https://at.alicdn.com/t/c/font_4801292_m9q9hb7nho8.ttf?t=1737535305400') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-tick:before {
+  content: "\e6a3";
+}
+
+.icon-chart:before {
+  content: "\e621";
+}
+
+.icon-mine:before {
+  content: "\e617";
+}
+
+.icon-home:before {
+  content: "\e67a";
+}
+
+.icon-card:before {
+  content: "\ed23";
+}
+
+.icon-close:before {
+  content: "\e650";
+}
+
+.icon-caret:before {
+  content: "\e8ec";
+}
+
+.icon-arrow:before {
+  content: "\e61f";
+}
+
+.icon-keyboard-del:before {
+  content: "\edc6";
+}
+
+.icon-default-avatar:before {
+  content: "\e608";
+}
+
+.icon-children:before {
+  content: "\e604";
+}
+
+.icon-lottery:before {
+  content: "\e611";
+}
+
+.icon-revenue:before {
+  content: "\e607";
+}
+
+.icon-salary:before {
+  content: "\e632";
+}
+
+.icon-fruits:before {
+  content: "\e800";
+}
+
+.icon-cash-gifts:before {
+  content: "\e60a";
+}
+
+.icon-red-packet:before {
+  content: "\e625";
+}
+
+.icon-travel:before {
+  content: "\e606";
+}
+
+.icon-other-income:before {
+  content: "\e637";
+}
+
+.icon-other-expenses:before {
+  content: "\e638";
+}
+
+.icon-part-time:before {
+  content: "\e601";
+}
+
+.icon-entertainment:before {
+  content: "\e7ff";
+}
+
+.icon-healthcare:before {
+  content: "\e807";
+}
+
+.icon-gifts:before {
+  content: "\e602";
+}
+
+.icon-sports:before {
+  content: "\e6e9";
+}
+
+.icon-transportation:before {
+  content: "\e634";
+}
+
+.icon-office:before {
+  content: "\e7ec";
+}
+
+.icon-clothing:before {
+  content: "\e7ed";
+}
+
+.icon-pets:before {
+  content: "\e7ee";
+}
+
+.icon-shopping:before {
+  content: "\e7ef";
+}
+
+.icon-dining:before {
+  content: "\e7f0";
+}
+
+.icon-courier:before {
+  content: "\e7f1";
+}
+
+.icon-donations:before {
+  content: "\e7f2";
+}
+
+.icon-daily-use:before {
+  content: "\e7f3";
+}
+
+.icon-car:before {
+  content: "\e7f4";
+}
+
+.icon-books:before {
+  content: "\e7f5";
+}
+
+.icon-vegetables:before {
+  content: "\e7f6";
+}
+
+.icon-communication:before {
+  content: "\e7f7";
+}
+
+.icon-learning:before {
+  content: "\e7f8";
+}
+
+.icon-digital-products:before {
+  content: "\e7f9";
+}
+
+.icon-tobacco-alcohol:before {
+  content: "\e7fa";
+}
+
+.icon-social:before {
+  content: "\e7fb";
+}
+
+.icon-elderly:before {
+  content: "\e7fc";
+}
+
+.icon-housing:before {
+  content: "\e7fd";
+}
+
+.icon-snacks:before {
+  content: "\e7fe";
+}
+
+.icon-financial-management:before {
+  content: "\e614";
+}
+
+.icon-beauty:before {
+  content: "\e810";
+}
+
+.icon-maintenance:before {
+  content: "\e605";
+}
+
+.icon-plus:before {
+  content: "\e8fe";
+}
+
+.icon-pie:before {
+  content: "\e600";
+}
+
+.icon-order:before {
+  content: "\e78a";
+}
+
+.icon-account:before {
+  content: "\e60b";
+}
+
