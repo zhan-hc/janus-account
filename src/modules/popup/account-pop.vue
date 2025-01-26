@@ -177,7 +177,7 @@ const handleKeep = () => {
     })
     return
   }
-  
+  emit('update:typeId', activeVal.value)
   emit('confirm', {
     amount: amount.value,
     accountDate: accountDate.value,
