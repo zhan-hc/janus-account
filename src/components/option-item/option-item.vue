@@ -58,6 +58,7 @@ const onTap = (e: Event) => {
     padding: 16px 24rpx 16px 32rpx;
     width: 100%;
     background-color: #ffffff;
+    border-bottom: 2rpx solid #f1f1f1;
 
     &-l, &-r {
       display: flex;

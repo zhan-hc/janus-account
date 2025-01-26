@@ -12,11 +12,11 @@ import { computed } from "vue"
     },
     color: {
       type: String,
-      default: ''
+      default: '#707070'
     },
     size: {
       type: String,
-      default: ''
+      default: '16'
     }
   })
 

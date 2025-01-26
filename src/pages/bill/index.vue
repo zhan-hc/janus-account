@@ -23,7 +23,8 @@
         <text class="item-value">{{`￥ ${formatMoney(totalExpense, 2)}`}}</text>
       </view>
     </view>
-    <scroll-view scroll-y class="bill-table" :style="tableStyle">
+    <empty v-if="!isLogin || !tableList.length" text="暂无账单数据"></empty>
+    <scroll-view v-else scroll-y class="bill-table" :style="tableStyle">
       <view class="table-item">
         <view class="table-header">月份</view>
         <view class="table-header">收入</view>
@@ -79,8 +80,11 @@ const changePicker = async () => {
 
 const getStaticData = async () => {
   const { data }: any = await fetchAllStatistics()
-  state.totalIncome = data.find((item: any) => item.type_id === accountTypeCode.income).totalAmount
-  state.totalExpense = data.find((item: any) => item.type_id === accountTypeCode.expense).totalAmount
+  if (!data.length) {
+    return
+  }
+  state.totalIncome = data.find((item: any) => item.type_id === accountTypeCode.income)?.totalAmount
+  state.totalExpense = data.find((item: any) => item.type_id === accountTypeCode.expense)?.totalAmount
   state.totalBalance = state.totalIncome - state.totalExpense
   const { data: tableData }: any = await fetchMonthStatistics(accountDate.value)
   state.tableList = transformMonthData(tableData, accountDate.value)

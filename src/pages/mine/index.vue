@@ -3,9 +3,9 @@
     <view class="mine-fixed">
       <nav-bar background="transparent" color="#fff" title="笨鸟记账"></nav-bar>
       <view class="mine-user" @tap="handleLogin">
-        <button v-if="userInfo.avatar_url" class="user-avatar" open-type="chooseAvatar" @chooseavatar="chooseAvatar">
-          <image class="avatar-img" :src="userInfo.avatar_url" mode="scaleToFill" />
-        </button>
+        <view v-if="userInfo.avatar_url" class="user-avatar">
+          <image class="avatar-img" :src="userInfo.avatar_url" mode="aspectFit" />
+        </view>
         <a-icon v-else class="user-avatar default" name="default-avatar" size="24" color="#fff"></a-icon>
         <view class="user-info">
           <text v-if="isLogin" class="user-name">{{ userInfo.name }}</text>
@@ -14,38 +14,39 @@
         </view>
       </view>
     </view>
-    <option-item v-if="isLogin" label="修改昵称" @attack="nameShow = true"></option-item>
+    <option-item v-if="isLogin" label="用户管理" @attack="toUser"></option-item>
+    <option-item v-if="isLogin" label="账本管理" @attack="toBook"></option-item>
     <option-item label="分享给好友">
       <template #content>
         <button class="item-content" open-type="share"></button>
       </template>
     </option-item>
-    <input-pop v-model="nickName" v-model:show="nameShow" inputType="nickname" title="修改名称" placeholder="请输入名称..." @confirm="updateName" @open="popOpen"/>
+    <option-item label="意见反馈">
+      <template #content>
+        <button class="item-content" open-type="feedback"></button>
+      </template>
+    </option-item>
     <tab-bar :activeIndex="3"></tab-bar>
   </view>
 </template>
 
 <script lang='ts' setup>
-import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { fetchCodeLogin } from '@/api/login'
-import { updateUser } from '@/api/user'
 import { useUserStore } from '@/store/user'
-import InputPop from '@/modules/popup/input-pop.vue'
+import { updateUser } from '@/api/user'
+import { getDefaultAvatar, getDefaultUserName } from '@/utils/user'
 
 const store = useUserStore()
 const { userInfo, isLogin }: any = storeToRefs(store)
-const nickName = ref('')
-const nameShow = ref(false)
+const toBook = () => {
+  uni.navigateTo({ url: '/subPackages/book/list' })
+}
 
-const popOpen = () => {
-  nickName.value = userInfo.value.name
+const toUser = () => {
+  uni.navigateTo({ url: '/subPackages/user/index' })
 }
-const updateName = async () => {
-  await updateUserInfo({
-    name: nickName.value
-  })
-}
+
 const handleLogin = () => {
   if (isLogin.value) return
   uni.showLoading({
@@ -59,11 +60,17 @@ const handleLogin = () => {
       uni.login({
         success: async ({ code }) => {
           const { data: { token, refreshToken, userInfo: userData } }: any = await fetchCodeLogin(code)
+          const [name, avatar_url] = [getDefaultUserName(), getDefaultAvatar(userInfo.gender)]
           store.setLoginInfo(token, refreshToken)
           store.setUserInfo({
             ...userData,
-            name: userData.name || userInfo.nickName,
-            avatar_url: userData.avatar_url || userInfo.avatarUrl
+            name: userData.name || name,
+            avatar_url: userData.avatar_url || avatar_url
+          })
+          if (!userData.name || !userData.avatar_url)
+          await updateUserInfo({
+            name: userData.name || name,
+            avatar_url: userData.avatar_url || avatar_url
           })
         },
         fail: (err) => {
@@ -83,15 +90,14 @@ const handleLogin = () => {
 }
 
 const updateUserInfo = async (params: any) => {
-  const { data }:any = await updateUser(params)
+  const { data, code }:any = await updateUser(params)
+  if (code === 200) {
+    uni.showToast({
+      title: '更改信息成功',
+      icon: 'success'
+    })
+   }
   store.setUserInfo(data)
-}
-
-const chooseAvatar = async (e:any) => {
-  const imgurl = e.detail.avatarUrl
-  await updateUserInfo({
-    avatar_url: imgurl
-  })
 }
 </script>
 
@@ -115,13 +121,14 @@ const chooseAvatar = async (e:any) => {
         border-radius: 50%;
         border: 4rpx solid #fff;
         box-sizing: border-box;
-        &.default {
-          padding: 20rpx;
-        }
         .avatar-img {
           width: 100%;
           height: 100%;
           border-radius: 50%;
+          transform: scale(1.3);
+        }
+        &.default {
+          padding: 20rpx;
         }
       }
       .user-info {

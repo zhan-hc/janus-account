@@ -29,6 +29,30 @@
 			}
 		}
 	],
+	"subPackages": [
+		{
+			"root": "subPackages/book",
+			"pages": [
+				{
+					"path": "list",
+					"style": {
+						"navigationBarTitleText": "账本管理"
+					}
+				}
+			]
+		},
+		{
+			"root": "subPackages/user",
+			"pages": [
+				{
+					"path": "index",
+					"style": {
+						"navigationBarTitleText": "用户管理"
+					}
+				}
+			]
+		}
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "笨鸟记账",

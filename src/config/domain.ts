@@ -1,3 +1,5 @@
 export const apiDomain = 'https://www.janus-c.top/account'
 
-export const imgBaseUrl = 'https://oss.janus-c.top/accounting'
+export const imgBaseUrl = 'http://oss.janus-c.top/accounting'
+
+export const imgUrl = 'http://oss.janus-c.top/'

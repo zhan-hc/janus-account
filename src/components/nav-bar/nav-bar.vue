@@ -8,12 +8,11 @@
       <slot></slot>
     </view>
   </view>
-  <view class="nav-bar-block" :style="blockStyle"></view>
+  <view v-if="isPlaceholder" class="nav-bar-block" :style="blockStyle"></view>
 </template>
 
 <script lang='ts' setup>
 import { computed } from "vue";
-import { storeToRefs } from "pinia";
 import useScreenStyle from "@/hooks/common/useScreenStyle";
 
 const slots = defineSlots();
@@ -30,6 +29,10 @@ const props = defineProps({
   color: {
     type: String,
     default: '#000'
+  },
+  isPlaceholder: { // 是否需要占位空间
+    type: Boolean,
+    default: true
   }
 })
 

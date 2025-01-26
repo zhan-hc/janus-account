@@ -62,7 +62,17 @@ export const http = (data: string | any) => {
           const newRes: any = await http(options)
           resolve(newRes)
         }
-        resolve(res.data)
+        if (res.data.code >= 200 && res.data.code <= 400) {
+          resolve(res.data)
+        } else {
+          uni.showToast({
+            // 没有该账本权限
+            title: res.data?.message || '服务异常，请稍后重试',
+            icon: 'none'
+          })
+          reject(res.data)
+        }
+        
       },
       fail: (err: FAIL_MSG) => {
         reject(err)

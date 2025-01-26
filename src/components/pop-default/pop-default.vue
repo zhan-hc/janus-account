@@ -1,5 +1,5 @@
 <template>
-  <uni-popup ref="popRef" background-color="#fff" borderRadius="16px 16px 0 0" :wrapStyle="popWrapStyle">
+  <uni-popup ref="popRef" background-color="#fff" borderRadius="16px 16px 0 0" :wrapStyle="wrapStyle">
     <view class="popup-header">
       <view class="header-left" @tap="handlerClose">
         <a-icon class="arrow" name="arrow" size="16" color="#000"></a-icon>
@@ -21,7 +21,7 @@ const props = defineProps({
     type: String,
     default: ''
   },
-  style: {
+  wrapStyle: {
     type: Object,
     default: () => ({})
   }
@@ -30,12 +30,6 @@ const props = defineProps({
 const emit = defineEmits(['close'])
 
 const popRef = ref<PopMethods | null>(null)
-
-const popWrapStyle = computed(() => {
-  return {
-    style: props.style
-  }
-})
 
 const open = async (direction: string) => {
   popRef.value?.open(direction)

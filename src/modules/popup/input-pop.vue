@@ -1,12 +1,12 @@
 <template>
   <pop-default ref="popRef" :title="title" @close="onClose">
-    <input ref="inputRef" class="pop-input" :type="inputType" v-model="inputVal" cursor-color="#dcdcdc" :placeholder="placeholder" :focus="inputFocus">
+    <input ref="inputRef" class="pop-input" :type="inputType" v-model="inputVal" cursor-color="#dcdcdc" :placeholder="placeholder" :focus="inputFocus" @change="onChange">
     <view class="popup-btn" @tap="onConfirm">完成</view>
   </pop-default>
 </template>
 
 <script lang='ts' setup>
-import { computed, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import type { PopMethods } from '@/constant/type/component'
 
 const props = defineProps({
@@ -63,6 +63,10 @@ const onClose = () => {
   emit('update:show', false)
 }
 
+const onChange = (e: any) => {
+  inputVal.value = e.detail.value
+}
+
 const onConfirm = () => {
   emit('update:show', false)
   emit('update:modelValue', inputVal.value)
@@ -72,6 +76,7 @@ const onConfirm = () => {
 
 <style scoped lang='scss'>
   .pop-input {
+    width: 100%;
     align-self: flex-start;
   }
   .popup-btn {

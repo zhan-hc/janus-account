@@ -22,9 +22,16 @@ export const deleteAccount = (data: any) => {
     data
   })
 }
+// export const fetchAccountList = (data: any) => {
+//   return http({
+//     url: '/book/accountList',
+//     data
+//   })
+// }
 export const fetchAccountList = (data: any) => {
   return http({
-    url: '/book/accountList',
+    url: '/book/v2/accountList',
+    method:'post',
     data
   })
 }
