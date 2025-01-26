@@ -31,7 +31,8 @@
         {{ item.name }}
       </view>
     </view>
-    <view style="width:750rpx; height:750rpx"><l-echart ref="chartRef"></l-echart></view>
+    <empty v-if="!isLogin" text="暂无统计数据"></empty>
+    <view v-else style="width:750rpx; height:750rpx"><l-echart ref="chartRef"></l-echart></view>
     <tab-bar :activeIndex="1"></tab-bar>
   </view>
 </template>

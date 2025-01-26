@@ -56,10 +56,7 @@
         </view>
       </view>
     </scroll-view>
-    <view v-else class="index-empty" :style="contentStyle">
-      <image class="empty-img" :src="`${imgBaseUrl}/img/empty-state.png`" mode="scaleToFill" />
-      <text class="empty-text">暂无记账数据</text>
-    </view>
+    <empty v-else :boxStyle="contentStyle" text="暂无记账数据"></empty>
     <view class="index-plus" @tap="handleAccount('add')">
       <a-icon name="plus" size="24" color="#fff"></a-icon>
     </view>
@@ -116,6 +113,7 @@ const fixedStyle = computed(() => {
 const contentStyle = computed(() => {
   return {
     height: `calc(${contentHeight.value} - ${navHeight.value} - 362rpx)`,
+    background: '#fff'
   }
 })
 
@@ -185,6 +183,8 @@ const handleAccount = (type: 'add' | 'edit', item?: any) => {
 }
 
 const initAccountData = async () => {
+  typeId.value = accountTypeCode.expense
+  categoryId.value = null
   await getBookStatistics()
   await getAccountList(apiParams.value)
 }
@@ -401,23 +401,6 @@ onShow(async () => {
             font-weight: bold;
           }
         }
-      }
-    }
-    &-empty {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      color: #a9a9a9;
-      padding-top: 20rpx;
-      text-align: center;
-      background: #fff;
-      .empty-img {
-        width: 200rpx;
-        height: 200rpx;
-      }
-      .empty-text {
-        margin-top: 20rpx;
-        font-size: 24rpx;
       }
     }
   }

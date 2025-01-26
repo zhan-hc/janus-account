@@ -23,7 +23,8 @@
         <text class="item-value">{{`￥ ${formatMoney(totalExpense, 2)}`}}</text>
       </view>
     </view>
-    <scroll-view scroll-y class="bill-table" :style="tableStyle">
+    <empty v-if="!isLogin" text="暂无账单数据"></empty>
+    <scroll-view v-else scroll-y class="bill-table" :style="tableStyle">
       <view class="table-item">
         <view class="table-header">月份</view>
         <view class="table-header">收入</view>
