@@ -1,13 +1,14 @@
 <template>
   <view class="index">
+    <image class="index-top" :src="`${imgBaseUrl}/img/account-top.png`" mode="scaleToFill" />
     <view class="index-fixed">
       <nav-bar background="transparent" color="#fff">
-        <view class="index-header">
+      <view class="index-header">
           <view class="header-book" @tap="bookShow = true">
             <text>{{ curBookItem.name}}</text>
             <a-icon class="caret" name="caret" color="#fff" size="16"></a-icon>
           </view>
-        </view>
+      </view>
       </nav-bar>
       <view class="index-summary">
         <view class="summary-item">
@@ -203,10 +204,18 @@ onShow(async () => {
 <style scoped lang='scss'>
   .index {
     min-height: 100vh;
-    background: url($account-url + '/img/account-top.png'), #f5f5f5;
-    background-repeat: no-repeat;
-    background-size: 100% auto;
-    overflow-y: scroll;
+    background: #f5f5f5;
+    // background-repeat: no-repeat;
+    // background-size: 100% auto;
+    // overflow-y: scroll;
+    &-top {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 60vw;
+    }
     &-fixed {
       position: fixed;
       top: 0;
