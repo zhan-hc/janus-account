@@ -6,14 +6,14 @@ import { fetchBookStatistics } from "@/api/statistics"
 
 export default function () {
   const state = reactive({
-    bookList: [{ id: '', name: '日常账本' }],
+    bookList: [] as any[],
     curBook: null,
     statisticsList: [],
     accountDate: dateFormat(new Date(), 'YYYY-MM')
   })
 
   const curBookItem = computed(() => {
-    return state.curBook || state.bookList[0]
+    return state.curBook || state.bookList[0] || { id: '', name: '日常账本' } // 默认选中
   })
 
   const curBookId = computed(() => {
@@ -50,7 +50,7 @@ export default function () {
 
   const getBookStatistics = async () => {
     const { data }: any = await fetchBookStatistics(apiParams.value)
-    state.statisticsList = data
+    state.statisticsList = data || []
   }
 
 

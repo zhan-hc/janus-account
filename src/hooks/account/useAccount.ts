@@ -47,7 +47,7 @@ export default function () {
 
   const getAccountList = async (params: { book_id: string, date: string }) => {
     const { data }: any = await fetchAccountList(params)
-    state.accountList = transformData(data)
+    state.accountList = transformData(data || [])
   }
 
   return {
