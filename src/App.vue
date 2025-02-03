@@ -47,5 +47,27 @@ onLaunch(() => {
 <style>
 @import url("./static/style/global.css");
 @import url("./static/icon/iconfont.css");
+/* // 默认样式 */
+button{
+	margin:0;
+    padding:0;
+    border-radius:0;
+    border:none;
+    background-color:transparent;
+}
+/* // 边框样式 */
+button::after{
+  border: 0;
+}
+/* // 禁用时样式 */
+button[disabled] {
+  background-color: transparent;
+  color: #666;
+}
+/* // 点击时样式 */
+.button-hover {
+color:rgba(0, 0, 0, 0.6);
+background-color:transparent;
+}
 </style>
 style
