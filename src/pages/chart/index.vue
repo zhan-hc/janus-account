@@ -32,7 +32,7 @@
       </view>
     </view>
     <empty v-if="!isLogin" text="暂无统计数据"></empty>
-    <view v-else style="width:750rpx; height:750rpx"><l-echart ref="chartRef"></l-echart></view>
+    <view style="width:750rpx; height:750rpx"><l-echart ref="chartRef"></l-echart></view>
     <tab-bar :activeIndex="1"></tab-bar>
   </view>
 </template>
@@ -41,7 +41,7 @@
 import { storeToRefs } from 'pinia'
 import { onShow } from '@dcloudio/uni-app';
 import { accountTypeText, dateType, dateTypeText } from '@/constant/account';
-import { computed, onMounted, ref, type Ref } from 'vue'
+import { ref, type Ref } from 'vue'
 import { accountTypes } from '@/constant/account';
 import { getDateObj, getTypeCurDate } from '@/utils/date'
 import { useUserStore } from '@/store/user'

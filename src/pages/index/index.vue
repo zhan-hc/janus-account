@@ -17,7 +17,7 @@
             <text>{{curDateData.month}}</text>
             <a-icon class="caret" name="caret" color="#000" size="18"></a-icon>
           </view>
-          <date-picker v-model="accountDate" title="选择日期" :endDate="curDate" fields="month" @change="getAccountList">
+          <date-picker v-model="accountDate" title="选择日期" :endDate="curDate" fields="month" @change="initAccountData">
             <view class="date-block"></view>
           </date-picker>
         </view>
@@ -32,7 +32,7 @@
       </view>
     </view>
     <view class="index-block" :style="fixedStyle"></view>
-    <scroll-view scroll-y class="index-content" :style="contentStyle" v-if="accountList.length" >
+    <scroll-view scroll-y class="index-content" :style="contentStyle" v-if="accountList.length" @scroll="accountScroll">
       <view class="account-list" v-for="(data, i) in accountList" :key="i">
         <view class="account-summary">
           <text class="account-time">{{ data.date }}</text>
@@ -56,8 +56,12 @@
           <text class="item-amount">{{`￥ ${formatMoney(item.amount, 2)}`}}</text>
         </view>
       </view>
+      <view class="data-tip">
+        <a-icon v-if="!isEnd" class="tip-icon" name="loading" color="#707070" size="16"></a-icon>
+        <text class="tip-text">{{ isEnd ? '暂无更多记账数据~' : "加载中..."}}</text>
+      </view>
     </scroll-view>
-    <empty v-else :boxStyle="contentStyle" text="暂无记账数据"></empty>
+    <empty v-else-if="!isLoading && !accountList.length" :boxStyle="contentStyle" text="暂无记账数据"></empty>
     <view class="index-plus" @tap="handleAccount('add')">
       <a-icon name="plus" size="24" color="#fff"></a-icon>
     </view>
@@ -77,7 +81,7 @@
 
 <script lang='ts' setup>
 import { storeToRefs } from 'pinia'
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { imgBaseUrl } from '@/config/domain'
 import { dateFormat } from '@/utils/date'
 import { formatMoney } from '@/utils/amount'
@@ -85,6 +89,7 @@ import { useUserStore } from '@/store/user'
 import { onShow } from '@dcloudio/uni-app'
 import { accountTypeCode } from '@/constant/account'
 import useBook from '@/hooks/book/useBook'
+import usePage from '@/hooks/common/usePage'
 import useAccount from '@/hooks/account/useAccount'
 import useScreenStyle from "@/hooks/common/useScreenStyle"
 import listPop from '@/modules/popup/list-pop.vue'
@@ -99,8 +104,11 @@ const curEditItem = ref(null)
 const curDate = dateFormat(new Date(), 'YYYY-MM')
 const store = useUserStore()
 const { isLogin }: any = storeToRefs(store)
+const { pageParams, pageNoStep, pageReset } = usePage(20)
 const { navHeight, contentHeight } = useScreenStyle()
-const { typeId, categoryId, accountList, getAccountList, handleKeepAccount, handleUpateAccount, handleDeleteAccount } = useAccount()
+const { isEnd, isLoading, typeId, categoryId, accountList,
+        initAccountStatus, getAccountList, handleKeepAccount, handleUpateAccount, handleDeleteAccount
+      } = useAccount()
 const { curDateData, accountDate, curBook, curBookItem, curBookId, apiParams, bookList, bookStatistics,
         getBookList, getBookStatistics
       } = useBook()
@@ -183,11 +191,29 @@ const handleAccount = (type: 'add' | 'edit', item?: any) => {
   show.value = true
 }
 
+const accountScroll = async (e: any) => {
+  const { deltaY } = e.detail
+  if (!isLoading.value && deltaY <= 10) {
+    if (!isEnd.value) {
+      pageNoStep()
+      await getAccountList({
+        ...apiParams.value,
+        ...pageParams.value
+      })
+    }
+  }
+}
+
 const initAccountData = async () => {
   typeId.value = accountTypeCode.expense
   categoryId.value = null
+  initAccountStatus()
+  pageReset()
   await getBookStatistics()
-  await getAccountList(apiParams.value)
+  await getAccountList({
+    ...apiParams.value,
+    ...pageParams.value
+  })
 }
 const init = async () => {
   if (isLogin.value) {
@@ -205,9 +231,6 @@ onShow(async () => {
   .index {
     min-height: 100vh;
     background: #f5f5f5;
-    // background-repeat: no-repeat;
-    // background-size: 100% auto;
-    // overflow-y: scroll;
     &-top {
       position: fixed;
       top: 0;
@@ -375,7 +398,7 @@ onShow(async () => {
             height: 40rpx;
             border-radius: 50%;
             padding: 10rpx;
-            background: linear-gradient(180deg, rgba(232, 56, 13, 1) 0%, rgba(243, 147, 79, 1) 99.48%), rgba(0, 0, 0, 1);
+            background: $primmary-linear-color;
           }
           .item-info {
             flex: 1;
@@ -411,6 +434,38 @@ onShow(async () => {
           }
         }
       }
+      .data-tip {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 10rpx;
+        font-size: 24rpx;
+        .tip-icon {
+          animation: rotate 1s linear infinite;
+        }
+        .tip-text {
+          margin-left: 10rpx;
+        }
+      }
+    }
+    .add-account {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 80rpx;
+      height: 80rpx;
+      margin-top: 12rpx;
+      background: #FF643B;
+      color: #fff;
+      border-radius: 50%;
+    }
+  }
+  @keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
     }
   }
 </style>

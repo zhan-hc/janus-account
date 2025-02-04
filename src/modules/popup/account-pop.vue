@@ -1,7 +1,7 @@
 <template>
     <uni-popup ref="popRef" background-color="#fff" :isMaskClick="false" borderRadius="16px 16px 0 0" :wrapStyle="popWrapStyle">
       <view class="popup-header">
-        <tab-list ref="tabRef" v-model:active="activeVal" :list="accountTypes" @change="getAccountData"></tab-list>
+        <tab-list class="popup-tab" ref="tabRef" v-model:active="activeVal" :list="accountTypes" @change="getAccountData"></tab-list>
         <a-icon class="popup-close" name="close" size="18" color="#c8c9cc" @tap="handlerClose"></a-icon>
       </view>
       <view class="popup-content">
@@ -10,7 +10,7 @@
           <view class="amount-input">{{ amount }}</view>
         </view>
         <view class="popup-icons">
-          <swiper class="icon-swiper" circular indicator-dots :interval="0" :duration="500">
+          <swiper class="icon-swiper" circular indicator-dots :current="swiperIndex" :interval="0" :duration="500">
             <swiper-item v-for="(item, index) in swiperTypeList" :key="index">
               <view class="icon-list">
                 <view
@@ -75,7 +75,7 @@ const props = defineProps({
 const curDate = dateFormat(new Date(), 'YYYY-MM-DD')
 const emit = defineEmits(['update:show', 'accountClick','tabChange', 'update:categroyId', 'update:typeId', 'confirm', 'delete'])
 const activeVal = ref(props.typeId)
-const amountRef = ref(null)
+const swiperIndex = ref(0)
 const popRef = ref<PopMethods | null>(null)
 const tabRef = ref(null)
 const remarkShow = ref(false)
@@ -104,6 +104,7 @@ watch(() => props.show, (value) => {
 
 const onOpen = async () => {
   if (props.operate === 'add') {
+    swiperIndex.value = 0
     initData()
   } else {
     activeVal.value = props.typeId
@@ -204,6 +205,9 @@ defineExpose({
       align-items: center;
       height: 96rpx;
     }
+    &-tab {
+      height: 100%;
+    }
     &-close {
       position: absolute;
       top: 28rpx;
@@ -259,7 +263,7 @@ defineExpose({
         }
         .icon-item--active {
             .icon-img {
-              background: linear-gradient(180deg, rgba(232, 56, 13, 1) 0%, rgba(243, 147, 79, 1) 99.48%), rgba(0, 0, 0, 1);
+              background: $primmary-linear-color;
             }
           }
       }

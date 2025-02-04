@@ -7,3 +7,17 @@ button {
   background: transparent;
   border: none;
 }
+/* // 边框样式 */
+button::after{
+  border: 0;
+}
+/* // 禁用时样式 */
+button[disabled] {
+  background-color: transparent;
+  color: #666;
+}
+/* // 点击时样式 */
+.button-hover {
+color:rgba(0, 0, 0, 0.6);
+background-color:transparent;
+}

@@ -5,7 +5,7 @@ export const fetchBookList = () => {
     url: '/book/bookList'
   })
 }
-export const addbook = (data: any) => {
+export const addBook = (data: any) => {
   return http({
     url: '/book/addbook',
     method:'post',
@@ -21,10 +21,18 @@ export const updateBook = (data: any) => {
   })
 }
 
+export const updateBookSort = (data: any) => {
+  return http({
+    url: '/book/updateBookSort',
+    method:'post',
+    data
+  })
+}
+
 export const deleteBook = (data: any) => {
   return http({
     url: '/book/deleteBook',
-    method:'dalete',
+    method:'DELETE',
     data
   })
 }

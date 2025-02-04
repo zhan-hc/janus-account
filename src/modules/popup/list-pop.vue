@@ -4,6 +4,7 @@
       <text class="item-text">{{item.name}}</text>
       <a-icon v-if="item.id === activeVal" name="tick" color="#FF643B"></a-icon>
     </view>
+    <slot name="extra"></slot>
     <view class="popup-btn" @tap="onConfirm">完成</view>
   </pop-default>
 </template>
@@ -80,7 +81,6 @@ const onConfirm = () => {
     display: flex;
     align-items: center;
     height: 76rpx;
-    // background: #f5f5f5;
     font-size: 28rpx;
     border-bottom: 2rpx solid #f5f5f5;
     .item-text {
@@ -97,7 +97,7 @@ const onConfirm = () => {
     align-items: center;
     width: 640rpx;
     height: 64rpx;
-    margin-top: 40rpx;
+    margin: 40rpx 0 32rpx;
     color: #fff;
     background: #FF643B;
     border-radius: 20rpx;

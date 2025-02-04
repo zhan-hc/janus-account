@@ -7,7 +7,11 @@ export default function () {
   const state = reactive({
     typeId: accountTypeCode.expense,
     categoryId: null,
-    accountList: []
+    accountList: [],
+    originList: [], // 原始数据未经过处理
+    accountMap: {},
+    isEnd: false,
+    isLoading: false
   })
 
   const handleKeepAccount = async (data: any) => {
@@ -45,16 +49,36 @@ export default function () {
     return result;
   }
 
-  const getAccountList = async (params: { book_id: string, date: string }) => {
+  const initAccountStatus = () => {
+    state.isEnd = false
+    state.isLoading = false
+    state.accountList = []
+    state.originList = []
+    state.accountMap = {}
+  }
+
+  const getAccountList = async (params: { book_id: string, date: string, pageSize: number, pageNo: number }) => {
+    state.isLoading = true
     const { data }: any = await fetchAccountList(params)
-    state.accountList = transformData(data)
+    data.forEach((item) => {
+      if (!state.accountMap[item.id]) {
+        state.accountMap[item.id] = item
+        state.originList.push(item)
+      }
+    })
+    state.accountList = transformData(state.originList)
+    state.isLoading = false
+    if (data.length < params.pageSize){
+      state.isEnd = true
+    }
   }
 
   return {
     ...toRefs(state),
     getAccountList,
+    initAccountStatus,
     handleKeepAccount,
     handleUpateAccount,
-    handleDeleteAccount
+    handleDeleteAccount,
   }
 }

@@ -1,8 +1,8 @@
 @font-face {
   font-family: 'iconfont';  /* Project id 4801292 */
-  src: url('https://at.alicdn.com/t/c/font_4801292_m9q9hb7nho8.woff2?t=1737535305400') format('woff2'),
-       url('https://at.alicdn.com/t/c/font_4801292_m9q9hb7nho8.woff?t=1737535305400') format('woff'),
-       url('https://at.alicdn.com/t/c/font_4801292_m9q9hb7nho8.ttf?t=1737535305400') format('truetype');
+  src: url('https://at.alicdn.com/t/c/font_4801292_p1r0m1996v.woff2?t=1738650856665') format('woff2'),
+       url('https://at.alicdn.com/t/c/font_4801292_p1r0m1996v.woff?t=1738650856665') format('woff'),
+       url('https://at.alicdn.com/t/c/font_4801292_p1r0m1996v.ttf?t=1738650856665') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,18 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-edit:before {
+  content: "\e603";
+}
+
+.icon-delete:before {
+  content: "\e839";
+}
+
+.icon-loading:before {
+  content: "\e676";
 }
 
 .icon-tick:before {
