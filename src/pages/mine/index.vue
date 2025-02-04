@@ -14,42 +14,32 @@
         </view>
       </view>
     </view>
-    <option-item v-if="isLogin" label="修改昵称" @attack="nameShow = true"></option-item>
+    <option-item v-if="isLogin" label="用户管理" @attack="toUser"></option-item>
     <option-item v-if="isLogin" label="账本管理" @attack="toBook"></option-item>
     <option-item label="分享给好友">
       <template #content>
         <button class="item-content" open-type="share"></button>
       </template>
     </option-item>
-    <input-pop v-model="nickName" v-model:show="nameShow" inputType="nickname" title="修改名称" placeholder="请输入名称..." @confirm="updateName" @open="popOpen"/>
     <tab-bar :activeIndex="3"></tab-bar>
   </view>
 </template>
 
 <script lang='ts' setup>
-import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { fetchCodeLogin } from '@/api/login'
-import { updateUser } from '@/api/user'
 import { useUserStore } from '@/store/user'
+import { updateUser } from '@/api/user'
 import { getDefaultAvatar, getDefaultUserName } from '@/utils/user'
-import InputPop from '@/modules/popup/input-pop.vue'
 
 const store = useUserStore()
 const { userInfo, isLogin }: any = storeToRefs(store)
-const nickName = ref('')
-const nameShow = ref(false)
-const popOpen = () => {
-  nickName.value = userInfo.value.name
-}
-const updateName = async () => {
-  await updateUserInfo({
-    name: nickName.value
-  })
-}
-
 const toBook = () => {
   uni.navigateTo({ url: '/subPackages/book/list' })
+}
+
+const toUser = () => {
+  uni.navigateTo({ url: '/subPackages/user/index' })
 }
 
 const handleLogin = () => {
@@ -72,6 +62,7 @@ const handleLogin = () => {
             name: userData.name || name,
             avatar_url: userData.avatar_url || avatar_url
           })
+          if (!userData.name || !userData.avatar_url)
           await updateUserInfo({
             name: userData.name || name,
             avatar_url: userData.avatar_url || avatar_url

@@ -149,6 +149,9 @@ const accountConfirm = async ({ amount, accountDate: date, remark }: any) => {
       type_id: typeId.value,
       category_id: categoryId.value
     })
+    if (!curBookId.value) {
+      await getBookList()
+    }
   } else {
     await handleUpateAccount({
       id: curEditItem.value.id,

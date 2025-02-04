@@ -21,6 +21,10 @@
       </view>
     </view>
     <view class="filter-type">
+      <view class="filter-book" @tap="bookShow = true">
+        <text>{{ curBookItem.name}}</text>
+        <a-icon class="caret" name="caret" color="#222226" size="16"></a-icon>
+      </view>
       <view 
         class="type-item"
         v-for="item in accountTypes" 
@@ -31,8 +35,9 @@
         {{ item.name }}
       </view>
     </view>
-    <empty v-if="!isLogin" text="暂无统计数据"></empty>
+    <empty v-if="!isLogin || !curBookId" text="暂无统计数据"></empty>
     <view style="width:750rpx; height:750rpx"><l-echart ref="chartRef"></l-echart></view>
+    <list-pop v-model="curBookItem.id" v-model:show="bookShow" :list="bookList" title="选择账本" @confirm="bookConfirm"></list-pop>
     <tab-bar :activeIndex="1"></tab-bar>
   </view>
 </template>
@@ -47,15 +52,17 @@ import { getDateObj, getTypeCurDate } from '@/utils/date'
 import { useUserStore } from '@/store/user'
 import { fetchCategoryStatistics } from '@/api/statistics';
 import useBook from '@/hooks/book/useBook'
+import listPop from '@/modules/popup/list-pop.vue'
 import DatePicker from '@/modules/picker/date-picker.vue'
 
 const echarts = require('../../static/js/echarts.min.js');
 const chartRef = ref(null)
+const bookShow = ref(false)
 const curDateType: Ref<'year' | 'month' | 'day'> = ref('year')
 const curTypeId = ref(accountTypes[0].value)
 const store = useUserStore()
 const { isLogin }: any = storeToRefs(store)
-const {  curBook, curBookId, bookList, getBookList } = useBook()
+const {  curBook, curBookItem, curBookId, bookList, getBookList } = useBook()
 
 const accountDate = ref(getTypeCurDate('year'))
 const getOptions = (data: any = [], name: string = '记账分类统计') => {
@@ -87,6 +94,11 @@ const changePicker = async () => {
   await getStaticData(accountDate.value)
 }
 
+const bookConfirm = async (book: any) => {
+  curBook.value = book
+  await getStaticData()
+} 
+
 const changeType = async (item: any, type: 'dateType' | 'accountType') => {
   if (type === 'dateType') {
     curDateType.value = item.value
@@ -98,6 +110,7 @@ const changeType = async (item: any, type: 'dateType' | 'accountType') => {
 }
 
 const getStaticData = async (curDateStr?: string) => {
+  if (!curBookId.value) return
   const { data }: any = await fetchCategoryStatistics({
       book_id: curBookId.value,
       type_id: curTypeId.value,
@@ -163,6 +176,12 @@ onShow(async () => {
       margin-top: 20rpx;
       padding: 0 20rpx;
       box-sizing: border-box;
+      .filter-book {
+        flex: 1;
+        .caret {
+          margin-left: 6rpx;
+        }
+      }
       .type-item {
         display: inline-flex;
         justify-content: center;

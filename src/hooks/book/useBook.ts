@@ -45,10 +45,12 @@ export default function () {
 
   const getBookList = async () => {
     const { data }: any = await fetchBookList()
-    state.bookList = data
+    data.length && (state.bookList = data)
   }
 
   const getBookStatistics = async () => {
+    if (!curBookId.value) return
+    console.log(curBookId.value, 'curBookId.value')
     const { data }: any = await fetchBookStatistics(apiParams.value)
     state.statisticsList = data
   }

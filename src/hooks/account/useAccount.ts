@@ -58,6 +58,7 @@ export default function () {
   }
 
   const getAccountList = async (params: { book_id: string, date: string, pageSize: number, pageNo: number }) => {
+    if (!params.book_id) return
     state.isLoading = true
     const { data }: any = await fetchAccountList(params)
     data.forEach((item) => {

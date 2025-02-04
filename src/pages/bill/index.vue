@@ -80,8 +80,8 @@ const changePicker = async () => {
 
 const getStaticData = async () => {
   const { data }: any = await fetchAllStatistics()
-  state.totalIncome = data.find((item: any) => item.type_id === accountTypeCode.income).totalAmount
-  state.totalExpense = data.find((item: any) => item.type_id === accountTypeCode.expense).totalAmount
+  state.totalIncome = data.find((item: any) => item.type_id === accountTypeCode.income)?.totalAmount
+  state.totalExpense = data.find((item: any) => item.type_id === accountTypeCode.expense)?.totalAmount
   state.totalBalance = state.totalIncome - state.totalExpense
   const { data: tableData }: any = await fetchMonthStatistics(accountDate.value)
   state.tableList = transformMonthData(tableData, accountDate.value)
