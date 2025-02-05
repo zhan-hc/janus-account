@@ -21,6 +21,11 @@
         <button class="item-content" open-type="share"></button>
       </template>
     </option-item>
+    <option-item label="意见反馈">
+      <template #content>
+        <button class="item-content" open-type="feedback"></button>
+      </template>
+    </option-item>
     <tab-bar :activeIndex="3"></tab-bar>
   </view>
 </template>

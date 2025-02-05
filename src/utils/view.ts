@@ -11,12 +11,14 @@ export function geScreenHeight () {
  //导航栏高度
  const navHeight = systemInfo.statusBarHeight + capsuleInfo.height + (capsuleInfo.top - statusBarHeight) * 2
  //tabbar高度    
- const safeAreaHeight = systemInfo.screenHeight - systemInfo.safeArea.bottom
+ const tabbarHeight = systemInfo.screenHeight - systemInfo.safeArea.bottom
  //可实现内容高度（中间区域）
  const contentHeight = systemInfo.screenHeight-navHeight
+ const safeAreaHeight = systemInfo.screenHeight - systemInfo.safeArea.bottom
   return {
     statusBarHeight,
     navHeight,
+    tabbarHeight,
     safeAreaHeight,
     contentHeight
   }

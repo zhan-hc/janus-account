@@ -26,12 +26,17 @@ export default function () {
     return screenInfo.value.contentHeight + 'px'
   })
 
+  const safeAreaHeight = computed(() => {
+    return screenInfo.value.safeAreaHeight + 'px'
+  })
+
 
   return {
     navHeight,
     navbarHeight,
     statusBarHeight,
     screenInfo,
-    contentHeight
+    contentHeight,
+    safeAreaHeight
   }
 }

@@ -4,8 +4,8 @@ export const accountTypeCode = {
 }
 
 export const accountTypeText = {
-  [accountTypeCode.income]: '支出',
-  [accountTypeCode.expense]: '收入',
+  [accountTypeCode.income]: '收入',
+  [accountTypeCode.expense]: '支出',
 }
 
 export const accountTypes = [

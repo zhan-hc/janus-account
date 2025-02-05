@@ -2,26 +2,29 @@
   <view class="book">
     <view class="book-tip">
       <view class="tip-text">
-        <text>通过编辑可以对账本进行拖拽，来更改账本的展示顺序</text>
-        <text>首页默认展示第一个账本的记账数据</text>
+        <text>通过编辑可以对账本进行拖拽修改排序，首页默认展示第一个账本的记账数据</text>
         </view>
       <text class="tip-btn" @tap="changeSort">{{ tipText }}</text>
     </view>
-    <m-drag :item-height="50" :list="bookList" :dragStatus="dragStatus">
-      <template #default="{ item }">
-        <view class="book-item">
-          <view class="book-icon">
-            <a-icon name="account" size="14 " color="#fff"></a-icon>
+    <scroll-view class="book-box" scroll-y :style="scrollViewStyle">
+      <m-drag v-if="bookList.length" :item-height="50" :list="bookList" :dragStatus="dragStatus">
+        <template #default="{ item }">
+          <view class="book-item">
+            <view class="book-icon">
+              <a-icon name="account" size="14 " color="#fff"></a-icon>
+            </view>
+            <text class="item-text">{{item.name}}</text>
+            <a-icon v-if="item.master" name="edit" color="#222226" size="22" @tap="onEdit(item)"></a-icon>
+            <a-icon v-if="item.master" name="delete" color="#FF4500" @tap="onDelete(item)" size="22" style="margin-left: 20rpx;"></a-icon>
           </view>
-          <text class="item-text">{{item.name}}</text>
-          <a-icon v-if="item.master" name="edit" color="#222226" size="22" @tap="onEdit(item)"></a-icon>
-          <a-icon v-if="item.master" name="delete" color="#FF4500" @tap="onDelete(item)" size="22" style="margin-left: 20rpx;"></a-icon>
-        </view>
-      </template>
-    </m-drag>
-    <view class="book-add" @tap="handleAdd">
-      <a-icon name="plus" color="#fff" size="20"></a-icon>
-    </view>
+        </template>
+      </m-drag>
+      <empty v-else text="暂无账本数据"></empty>
+      <view class="book-add" @tap="handleAdd">
+        <a-icon name="plus" color="#fff" size="20"></a-icon>
+      </view>
+    </scroll-view>
+    
     <input-pop v-model="bookName" v-model:show="bookShow" title="添加账本" placeholder="请输入账本名称..." @confirm="handleOerateBook"/>
   </view>
   </template>
@@ -31,17 +34,25 @@ import { computed, onMounted, ref } from 'vue'
 import { addBook, deleteBook, updateBook, updateBookSort } from '@/api/book'
 import useBook from '@/hooks/book/useBook'
 import InputPop from '@/modules/popup/input-pop.vue'
+import useScreenStyle from '@/hooks/common/useScreenStyle'
 
 const bookName = ref('')
 const bookShow = ref(false)
 const popType = ref('add')
 const dragStatus = ref(false)
+const { safeAreaHeight } = useScreenStyle()
 const { curBook, curBookItem, curBookId, bookList, getBookList } = useBook()
 
 const tipText = computed(() => {
   return dragStatus.value ? '完成' : '编辑'
 })
 
+const scrollViewStyle = computed(() => {
+  return {
+    height: `calc(100vh - ${safeAreaHeight.value} - 104rpx)`,
+    marginTop: '104rpx'
+  }
+})
 const handleAdd = () => {
   bookName.value = ''
   bookShow.value = true
@@ -116,8 +127,6 @@ onMounted(async () => {
 
 <style scoped lang='scss'>
 .book {
-  padding-bottom: constant(safe-area-inset-bottom + 40rpx);
-  padding-bottom: env(safe-area-inset-bottom + 40rpx);
   &-add {
     position: fixed;
     bottom: 20vh;
@@ -132,11 +141,19 @@ onMounted(async () => {
     box-sizing: border-box;
   }
   &-tip {
+    z-index: 5;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     display: flex;
     align-items: center;
+    height: 104rpx;
     padding: 20rpx 32rpx;
     font-size: 24rpx;
     color: #ccc;
+    // background: #fff;
+    box-sizing: border-box;
     .tip-text {
       flex: 1;
       display: flex;
