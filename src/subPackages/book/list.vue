@@ -2,20 +2,20 @@
   <view class="book">
     <view class="book-tip">
       <view class="tip-text">
-        <text>通过编辑可以对账本进行拖拽修改排序，首页默认展示第一个账本的记账数据</text>
+        <text>通过编辑可以对账本进行拖拽修改排序；点击账本可以进入详情</text>
         </view>
       <text class="tip-btn" @tap="changeSort">{{ tipText }}</text>
     </view>
     <scroll-view class="book-box" scroll-y :style="scrollViewStyle">
       <m-drag v-if="bookList.length" :item-height="50" :list="bookList" :dragStatus="dragStatus">
         <template #default="{ item }">
-          <view class="book-item">
+          <view class="book-item" @tap="onItemClick(item)">
             <view class="book-icon">
               <a-icon name="account" size="14 " color="#fff"></a-icon>
             </view>
             <text class="item-text">{{item.name}}</text>
-            <a-icon v-if="item.master" name="edit" color="#222226" size="22" @tap="onEdit(item)"></a-icon>
-            <a-icon v-if="item.master" name="delete" color="#FF4500" @tap="onDelete(item)" size="22" style="margin-left: 20rpx;"></a-icon>
+            <a-icon v-if="item.master" name="edit" color="#222226" size="22" @tap.stop="onEdit(item)"></a-icon>
+            <a-icon v-if="item.master" name="delete" color="#FF4500" @tap.stop="onDelete(item)" size="22" style="margin-left: 20rpx;"></a-icon>
           </view>
         </template>
       </m-drag>
@@ -53,6 +53,10 @@ const scrollViewStyle = computed(() => {
     marginTop: '104rpx'
   }
 })
+
+const onItemClick = (item: any) => {
+  uni.navigateTo({ url: `/subPackages/book/detail?book_id=${item.id}` })
+}
 const handleAdd = () => {
   bookName.value = ''
   bookShow.value = true
@@ -84,7 +88,7 @@ const onEdit = (item: any) => {
 const onDelete = (item: any) => {
   uni.showModal({
     title: '提示',
-    content: `确认删除账本【${item.name}】及其对应的记账数据吗？`,
+    content: `确认删除账本【${item.name}】及其对应的所有的记账数据吗？`,
     success: async function (res) {
       if (res.confirm) {
         await deleteBook({
@@ -151,7 +155,7 @@ onMounted(async () => {
     height: 104rpx;
     padding: 20rpx 32rpx;
     font-size: 24rpx;
-    color: #ccc;
+    color: #808080;
     // background: #fff;
     box-sizing: border-box;
     .tip-text {

@@ -2,7 +2,7 @@
   <view class="index">
     <image class="index-top" :src="`${imgBaseUrl}/img/account-top.png`" mode="scaleToFill" />
     <view class="index-fixed">
-      <nav-bar background="transparent" color="#fff">
+      <nav-bar :backShow="false" background="transparent" color="#fff">
       <view class="index-header">
           <view class="header-book" @tap="bookShow = true">
             <text>{{ curBookItem.name}}</text>
@@ -226,6 +226,7 @@ const init = async () => {
 }
 
 onShow(async () => {
+  uni.hideTabBar({})
   await init()
 })
 </script>

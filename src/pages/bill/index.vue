@@ -1,6 +1,6 @@
 <template>
   <view class="bill">
-    <nav-bar background="linear-gradient(180deg, rgba(232, 56, 13, 1) 0%, rgba(243, 147, 79, 1) 99.48%)" color="#fff" title="账单"></nav-bar>
+    <nav-bar :backShow="false" background="linear-gradient(180deg, rgba(232, 56, 13, 1) 0%, rgba(243, 147, 79, 1) 99.48%)" color="#fff" title="账单"></nav-bar>
     <view class="bill-filter">
       <date-picker v-model="accountDate" title="选择日期" fields="year" @change="changePicker">
         <view class="picker-box">

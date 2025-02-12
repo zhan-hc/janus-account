@@ -5,10 +5,43 @@ export const fetchBookList = () => {
     url: '/book/bookList'
   })
 }
+export const fetchBookItem = (bookId: string) => {
+  return http({
+    url: `/book/bookItem?book_id=${bookId}`
+  })
+}
 export const addBook = (data: any) => {
   return http({
     url: '/book/addbook',
     method:'post',
+    data
+  })
+}
+
+export const bookUser = (book_id: string) => {
+  return http({
+    url: '/book/bookUser',
+    method:'post',
+    data: {
+      book_id
+    }
+  })
+}
+
+export const addBookUser = (book_id: string) => {
+  return http({
+    url: '/book/bookUser/add',
+    method:'post',
+    data: {
+      book_id
+    }
+  })
+}
+
+export const deleteBookUser = (data: any) => {
+  return http({
+    url: '/book/bookUser/delete',
+    method:'DELETE',
     data
   })
 }

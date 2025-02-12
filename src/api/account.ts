@@ -22,12 +22,7 @@ export const deleteAccount = (data: any) => {
     data
   })
 }
-// export const fetchAccountList = (data: any) => {
-//   return http({
-//     url: '/book/accountList',
-//     data
-//   })
-// }
+
 export const fetchAccountList = (data: any) => {
   return http({
     url: '/book/v2/accountList',

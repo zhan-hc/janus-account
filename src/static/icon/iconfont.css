@@ -1,8 +1,9 @@
+/*每次更新icon都需要同步更新下面src的在线最新链接*/
 @font-face {
   font-family: 'iconfont';  /* Project id 4801292 */
-  src: url('https://at.alicdn.com/t/c/font_4801292_p1r0m1996v.woff2?t=1738650856665') format('woff2'),
-       url('https://at.alicdn.com/t/c/font_4801292_p1r0m1996v.woff?t=1738650856665') format('woff'),
-       url('https://at.alicdn.com/t/c/font_4801292_p1r0m1996v.ttf?t=1738650856665') format('truetype');
+  src: url('https://at.alicdn.com/t/c/font_4801292_1htk1zbzoxs.woff2?t=1739269244275') format('woff2'),
+       url('https://at.alicdn.com/t/c/font_4801292_1htk1zbzoxs.woff?t=1739269244275') format('woff'),
+       url('https://at.alicdn.com/t/c/font_4801292_1htk1zbzoxs.ttf?t=1739269244275') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +12,10 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-share:before {
+  content: "\e75c";
 }
 
 .icon-edit:before {

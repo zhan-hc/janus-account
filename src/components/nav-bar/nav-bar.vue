@@ -3,6 +3,7 @@
     <view class="nav-var-status" :style="statusbarStyle"></view>
     <view v-if="!hasDefaultSlot" class="nav-bar-content" :style="contentStyle">
       <view v-if="title" class="nav-bar-title">{{ title }}</view>
+      <a-icon v-if="backShow" class="nav-bar-back" name="arrow" color="#000" size="20" @tap="onBack" bold></a-icon>
     </view>
     <view v-else class="nav-bar-slot" :style="contentStyle">
       <slot></slot>
@@ -21,6 +22,10 @@ const props = defineProps({
   title: {
     type: String,
     default: ''
+  },
+  backShow: {
+    type: Boolean,
+    default: true
   },
   background: {
     type: String,
@@ -62,6 +67,10 @@ const contentStyle = computed(() => {
     color: props.color
   }
 })
+
+const onBack = () => {
+  uni.navigateBack()
+}
 </script>
 
 <style scoped lang='scss'>
@@ -74,6 +83,7 @@ const contentStyle = computed(() => {
       background: transparent;
     }
     &-content {
+      position: relative;
       background: transparent;
       display: flex;
       align-items: center;
@@ -85,8 +95,18 @@ const contentStyle = computed(() => {
       align-items: center;
     }
     &-title {
+      padding: 0 32rpx;
       font-weight: bold;
       letter-spacing: 2rpx;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    &-back {
+      position: absolute;
+      top: 50%;
+      left: 32rpx;
+      transform: translateY(-50%) rotate(-90deg);
     }
   }
 </style>

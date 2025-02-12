@@ -2,9 +2,11 @@ import type { FAIL_MSG } from "@/constant/type/request";
 import { apiDomain } from "@/config/domain";
 import { fetchRefreshToken } from "@/api/login";
 import { setCacheToken } from "@/utils/req";
+import { resetLoginStatus } from "@/utils/user";
 
 const timeout = 10000; // 请求超时时间
 let loadingCount = 0; // 控制 loading 多请求的计数
+let unauthorizedCount = 0;
 
 // 请求拦截
 const httpInterceptor = {
@@ -56,13 +58,20 @@ export const http = (data: string | any) => {
       success: async (res: any) => {
         // 无感刷新换token
         if (res.data.code === 401) {
-          uni.setStorageSync('Authorization', uni.getStorageSync('refreshToken'))
+          unauthorizedCount += 1
+          const fToken = uni.getStorageSync('refreshToken')
+          if (!fToken || unauthorizedCount >= 3) {
+            resetLoginStatus()
+            return
+          }
+          fToken && uni.setStorageSync('Authorization', fToken)
           const { data: { token, refreshToken } }: any = await fetchRefreshToken()
           setCacheToken(token, refreshToken)
+          unauthorizedCount = 0
           const newRes: any = await http(options)
           resolve(newRes)
         }
-        if (res.data.code >= 200 && res.data.code <= 400) {
+        if (res.data.code >= 200 && res.data.code < 400) {
           resolve(res.data)
         } else {
           uni.showToast({

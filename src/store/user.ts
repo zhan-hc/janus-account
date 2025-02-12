@@ -17,6 +17,12 @@ export const useUserStore = defineStore('user', () => {
       setLoginStatus(true)
     }
   }
+
+  const initUserInfo = () => {
+    userInfo.value = {}
+    isLogin.value = false
+    token.value = ''
+  }
   const setLoginInfo = (authToken: string, refreshToken: string) => {
     token.value = authToken
     setCacheToken(authToken, refreshToken)
@@ -27,6 +33,7 @@ export const useUserStore = defineStore('user', () => {
     userInfo,
     setUserInfo,
     setLoginInfo,
+    initUserInfo,
     setLoginStatus
   }
 })

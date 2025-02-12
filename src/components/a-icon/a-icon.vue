@@ -17,13 +17,18 @@ import { computed } from "vue"
     size: {
       type: String,
       default: '16'
+    },
+    bold: {
+      type: Boolean,
+      default: false
     }
   })
 
   const iconStyle = computed(() => {
     return {
       color: props.color,
-      fontSize: props.size + 'px'
+      fontSize: props.size + 'px',
+      fontWeight: props.bold ? 'bold' : 'normal'
     }
   })
 </script>

@@ -38,6 +38,12 @@
 					"style": {
 						"navigationBarTitleText": "账本管理"
 					}
+				},
+				{
+					"path": "detail",
+					"style": {
+						"navigationBarTitleText": "账本详情"
+					}
 				}
 			]
 		},

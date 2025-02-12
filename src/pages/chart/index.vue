@@ -1,6 +1,6 @@
 <template>
   <view class="chart">
-    <nav-bar background="linear-gradient(180deg, rgba(232, 56, 13, 1) 0%, rgba(243, 147, 79, 1) 99.48%)" color="#fff" title="图表"></nav-bar>
+    <nav-bar :backShow="false" background="linear-gradient(180deg, rgba(232, 56, 13, 1) 0%, rgba(243, 147, 79, 1) 99.48%)" color="#fff" title="图表"></nav-bar>
     <view class="chart-filter">
       <date-picker v-model="accountDate" title="选择日期" :fields="curDateType" @change="changePicker">
         <view class="picker-box">

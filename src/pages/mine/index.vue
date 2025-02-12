@@ -1,7 +1,7 @@
 <template>
   <view class="mine">
     <view class="mine-fixed">
-      <nav-bar background="transparent" color="#fff" title="笨鸟记账"></nav-bar>
+      <nav-bar :backShow="false" background="transparent" color="#fff" title="笨鸟记账"></nav-bar>
       <view class="mine-user" @tap="handleLogin">
         <view v-if="userInfo.avatar_url" class="user-avatar">
           <image class="avatar-img" :src="userInfo.avatar_url" mode="aspectFit" />
@@ -32,72 +32,19 @@
 
 <script lang='ts' setup>
 import { storeToRefs } from 'pinia'
-import { fetchCodeLogin } from '@/api/login'
 import { useUserStore } from '@/store/user'
-import { updateUser } from '@/api/user'
-import { getDefaultAvatar, getDefaultUserName } from '@/utils/user'
+import useLogin from '@/hooks/common/useLogin'
 
 const store = useUserStore()
 const { userInfo, isLogin }: any = storeToRefs(store)
+const { handleLogin } = useLogin()
+
 const toBook = () => {
   uni.navigateTo({ url: '/subPackages/book/list' })
 }
 
 const toUser = () => {
   uni.navigateTo({ url: '/subPackages/user/index' })
-}
-
-const handleLogin = () => {
-  if (isLogin.value) return
-  uni.showLoading({
-    title: '登录中' 
-  })
-  uni.getUserProfile({
-    desc: '用于完善用户资料',
-    lang: 'zh_CN',
-    success: ({ userInfo }) => {
-      // #ifdef MP-WEIXIN
-      uni.login({
-        success: async ({ code }) => {
-          const { data: { token, refreshToken, userInfo: userData } }: any = await fetchCodeLogin(code)
-          const [name, avatar_url] = [getDefaultUserName(), getDefaultAvatar(userInfo.gender)]
-          store.setLoginInfo(token, refreshToken)
-          store.setUserInfo({
-            ...userData,
-            name: userData.name || name,
-            avatar_url: userData.avatar_url || avatar_url
-          })
-          if (!userData.name || !userData.avatar_url)
-          await updateUserInfo({
-            name: userData.name || name,
-            avatar_url: userData.avatar_url || avatar_url
-          })
-        },
-        fail: (err) => {
-          console.log(err, 'err')
-        },
-        complete: () => {
-          uni.hideLoading()
-        }
-      })
-      // #endif
-    },
-    fail: (err) => {
-      uni.hideLoading()
-      console.log(err, 'err')
-    },
-  })
-}
-
-const updateUserInfo = async (params: any) => {
-  const { data, code }:any = await updateUser(params)
-  if (code === 200) {
-    uni.showToast({
-      title: '更改信息成功',
-      icon: 'success'
-    })
-   }
-  store.setUserInfo(data)
 }
 </script>
 
